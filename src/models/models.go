@@ -18,10 +18,12 @@ func InitDB() {
 
 	dsn := os.Getenv("DSN")
 
-	Sql, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
 		panic("Failed to connect to database")
 	}
 
-	Sql.AutoMigrate(&Notification{})
+	db.AutoMigrate(&Notification{})
+
+	Sql = db
 }
