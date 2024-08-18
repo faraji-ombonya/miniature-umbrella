@@ -6,6 +6,7 @@ import (
 	"github.com/faraji-fuji/miniature-umbrella/src/filters"
 	"github.com/faraji-fuji/miniature-umbrella/src/models"
 	"github.com/faraji-fuji/miniature-umbrella/src/serializers"
+	"github.com/faraji-fuji/miniature-umbrella/src/utils"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 )
@@ -63,6 +64,10 @@ func CreateNotification(c *gin.Context) {
 			"error": result.Error,
 		})
 	}
+
+	go func() {
+		utils.SendToExchange(notification)
+	}()
 
 	c.JSON(200, notification)
 }
